@@ -19,15 +19,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // add an event handler to open the Accu Weather website
-        binding.ivAccuweather.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("http://www.accuweather.com/")
-            )
-            startActivity(intent)
-        }
-
         // Thanks to https://stackoverflow.com/questions/46177133/http-request-in-android-with-kotlin
         thread {
             val weather = try {
