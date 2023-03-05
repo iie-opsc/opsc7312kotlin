@@ -1,10 +1,13 @@
 package za.ac.iie.opsc.basicweatherapp
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +37,17 @@ class AccuWeatherLogoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_accu_weather_logo, container, false)
+        val view = inflater.inflate(R.layout.fragment_accu_weather_logo, container, false)
+        val imageView = view.findViewById<ImageView>(R.id.iv_accuweather2)
+        // add an event handler to open the AccuWeather website
+        imageView.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("http://www.accuweather.com/")
+            )
+            startActivity(intent)
+        }
+        return view
     }
 
     companion object {
