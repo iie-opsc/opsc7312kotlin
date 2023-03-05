@@ -10,6 +10,7 @@ apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 android {
     namespace 'za.ac.iie.opsc.basicweatherapp'
     compileSdk 33
+    viewBinding.enabled = true
 
     defaultConfig {
         applicationId "za.ac.iie.opsc.basicweatherapp"
