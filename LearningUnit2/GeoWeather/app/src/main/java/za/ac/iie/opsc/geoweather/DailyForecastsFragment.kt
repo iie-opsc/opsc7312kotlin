@@ -8,8 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.Gson
-import za.ac.iie.opsc.geoweather.model.ExampleJson2KtKotlin
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import za.ac.iie.opsc.geoweather.model.DailyForecasts
+import za.ac.iie.opsc.geoweather.retrofit.RetrofitClient
 import kotlin.concurrent.thread
 
 /**
@@ -18,6 +23,7 @@ import kotlin.concurrent.thread
 class DailyForecastsFragment : Fragment() {
 
     private var columnCount = 1
+    private var viewModel = DailyForecastsViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,22 +46,15 @@ class DailyForecastsFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                // Thanks to https://stackoverflow.com/questions/46177133/http-request-in-android-with-kotlin
-                thread {
-                    val weatherJSON = try {
-                        buildURLForWeather()?.readText()
-                    } catch (e: Exception) {
-                        return@thread
-                    }
-                    if (weatherJSON != null) {
-                        val gson = Gson()
-                        val weatherData = gson.fromJson<ExampleJson2KtKotlin>(weatherJSON,
-                            ExampleJson2KtKotlin::class.java)
-                        activity?.runOnUiThread {
-                            adapter = DailyForecastsRecyclerViewAdapter(weatherData.DailyForecasts)
-                        }
-                    }
+
+                // call the webservice
+                viewModel.getFiveDayForecast("305605")
+
+                // observe the list in the model for changes
+                val weatherObserver = Observer<List<DailyForecasts>> { newWeather ->
+                    adapter = DailyForecastsRecyclerViewAdapter(newWeather)
                 }
+                viewModel.fiveDayForecast.observe(viewLifecycleOwner, weatherObserver)
             }
         }
         return view
