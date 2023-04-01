@@ -4,6 +4,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import za.ac.iie.opsc.geoweather.model.FiveDayForecast
+import za.ac.iie.opsc.geoweather.model.currentweather.CurrentWeather
+
+
+
 
 
 interface IAccuWeather {
@@ -22,4 +26,15 @@ interface IAccuWeather {
         @Query("metric") metric: Boolean
     ): FiveDayForecast?
 
+    /**
+     * Get the current conditions at a location.
+     * @param locationKey The key for the location
+     * @param apiKey The api key to use
+     * @return The current conditions at the location
+     */
+    @GET("currentconditions/v1/{locationKey}")
+    suspend fun getCurrentConditions(
+        @Path("locationKey") locationKey: String?,
+        @Query("apikey") apiKey: String?
+    ): List<CurrentWeather?>?
 }

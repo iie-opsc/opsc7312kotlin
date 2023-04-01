@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import za.ac.iie.opsc.geoweather.CurrentWeatherFragment
 import za.ac.iie.opsc.geoweather.DailyForecastsFragment
 import za.ac.iie.opsc.geoweather.R
 
@@ -23,6 +24,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         when (position) {
+            0 -> return CurrentWeatherFragment()
             1 -> return DailyForecastsFragment()
         }
         // Return a PlaceholderFragment.
