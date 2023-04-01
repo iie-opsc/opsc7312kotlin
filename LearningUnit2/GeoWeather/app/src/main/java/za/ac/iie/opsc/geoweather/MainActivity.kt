@@ -127,19 +127,23 @@ class MainActivity : AppCompatActivity() {
 
                 // observe the list in the model for changes
                 val weatherObserver = Observer<AccuWeatherLocation> {
-                    newWeather -> run {
-                        val sectionsPagerAdapter = SectionsPagerAdapter(
-                            this@MainActivity,
-                            supportFragmentManager
-                        )
-                        val viewPager: ViewPager = binding.viewPager
-                        viewPager.adapter = sectionsPagerAdapter
-                        val tabs: TabLayout = binding.tabs
-                        tabs.setupWithViewPager(viewPager)
-                    }
+                    location -> displayData(location)
                 }
                 model.location.observe(this@MainActivity, weatherObserver)
             }
         }
+    }
+
+    fun displayData(location: AccuWeatherLocation) {
+        val sectionsPagerAdapter = SectionsPagerAdapter(
+            this@MainActivity,
+            supportFragmentManager,
+            location.LocalizedName.toString(),
+            location.Key.toString()
+        )
+        val viewPager: ViewPager = binding.viewPager
+        viewPager.adapter = sectionsPagerAdapter
+        val tabs: TabLayout = binding.tabs
+        tabs.setupWithViewPager(viewPager)
     }
 }

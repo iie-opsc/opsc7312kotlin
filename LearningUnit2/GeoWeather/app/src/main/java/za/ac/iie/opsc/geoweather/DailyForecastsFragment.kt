@@ -20,15 +20,22 @@ import kotlin.concurrent.thread
 /**
  * A fragment representing a list of Items.
  */
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "locationName"
+private const val ARG_PARAM2 = "locationKey"
 class DailyForecastsFragment : Fragment() {
 
     private var columnCount = 1
     private var viewModel = DailyForecastsViewModel()
+    private var locationName: String? = null
+    private var locationKey: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
+            locationName = it.getString(ARG_PARAM1)
+            locationKey = it.getString(ARG_PARAM2)
             columnCount = 1
         }
     }
@@ -48,7 +55,7 @@ class DailyForecastsFragment : Fragment() {
                 }
 
                 // call the webservice
-                viewModel.getFiveDayForecast("305605")
+                viewModel.getFiveDayForecast(locationKey.toString())
 
                 // observe the list in the model for changes
                 val weatherObserver = Observer<List<DailyForecasts>> { newWeather ->
@@ -58,5 +65,25 @@ class DailyForecastsFragment : Fragment() {
             }
         }
         return view
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment BlankFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(locationName: String, locationKey: String) =
+            DailyForecastsFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, locationName)
+                    putString(ARG_PARAM2, locationKey)
+                }
+            }
     }
 }

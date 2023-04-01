@@ -18,14 +18,17 @@ private val TAB_TITLES = arrayOf(
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
+class SectionsPagerAdapter(private val context: Context,
+                           fm: FragmentManager,
+                           private val locationName: String,
+                           private val locationKey: String) :
     FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         when (position) {
-            0 -> return CurrentWeatherFragment()
-            1 -> return DailyForecastsFragment()
+            0 -> return CurrentWeatherFragment.newInstance(locationName, locationKey)
+            1 -> return DailyForecastsFragment.newInstance(locationName, locationKey)
         }
         // Return a PlaceholderFragment.
         return PlaceholderFragment.newInstance(position + 1)
