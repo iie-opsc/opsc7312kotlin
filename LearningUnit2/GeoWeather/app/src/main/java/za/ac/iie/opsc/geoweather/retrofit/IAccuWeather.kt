@@ -5,6 +5,10 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import za.ac.iie.opsc.geoweather.model.FiveDayForecast
 import za.ac.iie.opsc.geoweather.model.currentweather.CurrentWeather
+import za.ac.iie.opsc.geoweather.model.location.AccuWeatherLocation
+
+
+
 
 
 
@@ -37,4 +41,17 @@ interface IAccuWeather {
         @Path("locationKey") locationKey: String?,
         @Query("apikey") apiKey: String?
     ): List<CurrentWeather?>?
+
+    /**
+     * Gets the location data based on the geoposition.
+     * @param geoposition The geoposition as latitude,longitude
+     * @param apiKey The api key to use
+     * @return The location data for the geoposition
+     */
+    @GET("locations/v1/cities/geoposition/search")
+    suspend fun getLocationByPosition(
+        @Query("q") geoposition: String?,
+        @Query("apikey") apiKey: String?
+    ): AccuWeatherLocation?
+
 }

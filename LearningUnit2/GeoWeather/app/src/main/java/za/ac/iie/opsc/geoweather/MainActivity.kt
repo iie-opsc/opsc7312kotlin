@@ -10,12 +10,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import za.ac.iie.opsc.geoweather.databinding.ActivityMainBinding
+import za.ac.iie.opsc.geoweather.model.DailyForecasts
+import za.ac.iie.opsc.geoweather.model.location.AccuWeatherLocation
 import za.ac.iie.opsc.geoweather.ui.main.SectionsPagerAdapter
 
 
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
+    private var model = MainActivityModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,16 +122,23 @@ class MainActivity : AppCompatActivity() {
                 super.onLocationResult(locationResult)
                 val location: Location = locationResult.lastLocation
                 Log.i("LocationResult", "onLocationResult: $location")
+                model.getLocation("${location.latitude}," +
+                        "${location.longitude}")
 
-                // TODO: Get the locationKey from AccuWeater
-                val sectionsPagerAdapter = SectionsPagerAdapter(
-                    this@MainActivity,
-                    supportFragmentManager
-                )
-                val viewPager: ViewPager = binding.viewPager
-                viewPager.adapter = sectionsPagerAdapter
-                val tabs: TabLayout = binding.tabs
-                tabs.setupWithViewPager(viewPager)
+                // observe the list in the model for changes
+                val weatherObserver = Observer<AccuWeatherLocation> {
+                    newWeather -> run {
+                        val sectionsPagerAdapter = SectionsPagerAdapter(
+                            this@MainActivity,
+                            supportFragmentManager
+                        )
+                        val viewPager: ViewPager = binding.viewPager
+                        viewPager.adapter = sectionsPagerAdapter
+                        val tabs: TabLayout = binding.tabs
+                        tabs.setupWithViewPager(viewPager)
+                    }
+                }
+                model.location.observe(this@MainActivity, weatherObserver)
             }
         }
     }
