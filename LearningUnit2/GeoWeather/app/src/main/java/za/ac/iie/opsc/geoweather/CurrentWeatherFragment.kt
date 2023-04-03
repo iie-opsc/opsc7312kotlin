@@ -45,7 +45,7 @@ class CurrentWeatherFragment : Fragment() {
 
         // observe the list in the model for changes
         val weatherObserver = Observer<CurrentWeather> { newWeather -> run {
-                view.findViewById<TextView>(R.id.tvDescription).text = locationName
+                view.findViewById<TextView>(R.id.tvLocation).text = locationName
                 view.findViewById<TextView>(R.id.tvDescription).text = newWeather.WeatherText
                 view.findViewById<TextView>(R.id.tvTemperature).text =
                     "${newWeather.Temperature?.Metric?.Value} " +
