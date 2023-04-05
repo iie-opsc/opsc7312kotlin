@@ -50,7 +50,7 @@ class LocalImagesStoreFragment : Fragment() {
             if (binding.txtImageDescription.text.toString() != null &&
                 bitmap != null) {
                 val imageToStore = ImageModel(
-                    binding.txtImageDescription.text.toString(), bitmap
+                    binding.txtImageDescription.text.toString(), bitmap, null
                 )
                 imagedb.storeImageLocal(imageToStore)
             }

@@ -45,11 +45,11 @@ class MainChoiceFragment : Fragment() {
                 LocalImagesActivity::class.java)
             startActivity(openLocalImages)
         }
-
         val btn_cloud: Button = view.findViewById(R.id.btn_cloud)
         btn_cloud.setOnClickListener {
-//            val openCloudImages = Intent(activity, CloudImagesActivity::class.java)
-//            startActivity(openCloudImages)
+            val openCloudImages = Intent(activity,
+                CloudImagesActivity::class.java)
+            startActivity(openCloudImages)
         }
         return view
     }

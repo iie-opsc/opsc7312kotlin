@@ -93,7 +93,7 @@ class DatabaseHandler(private val context: Context?) :
                         image,
                         0, image.size
                     )
-                    dbImages.add(ImageModel(imageName, imageBitmap))
+                    dbImages.add(ImageModel(imageName, imageBitmap, null))
                 }
                 Toast.makeText(
                     context, "Loading Images",
