@@ -1,12 +1,12 @@
 package za.ac.iie.opsc.geoweather
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,10 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import za.ac.iie.opsc.geoweather.ProcessImageUtil.pushToInstagram
+import za.ac.iie.opsc.geoweather.ProcessImageUtil.storeScreenshot
+import za.ac.iie.opsc.geoweather.ProcessImageUtil.takeScreenshot
 import za.ac.iie.opsc.geoweather.databinding.ActivityMainBinding
-import za.ac.iie.opsc.geoweather.model.DailyForecasts
 import za.ac.iie.opsc.geoweather.model.location.AccuWeatherLocation
 import za.ac.iie.opsc.geoweather.ui.main.SectionsPagerAdapter
 
@@ -41,9 +42,16 @@ class MainActivity : AppCompatActivity() {
         val fab: FloatingActionButton = binding.fab
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action",
-                Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val rootview: View = window.decorView.rootView
+            val currentScreenshot = takeScreenshot(rootview)
+            storeScreenshot(
+                this@MainActivity,
+                currentScreenshot, "Weather Today"
+            )
+            pushToInstagram(
+                this@MainActivity,
+                "/Weather Today"
+            )
         }
     }
 
