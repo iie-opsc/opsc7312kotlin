@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import za.ac.iie.opsc.geoweather.CityWeatherFragment
 import za.ac.iie.opsc.geoweather.CurrentWeatherFragment
 import za.ac.iie.opsc.geoweather.DailyForecastsFragment
 import za.ac.iie.opsc.geoweather.R
@@ -29,6 +30,7 @@ class SectionsPagerAdapter(private val context: Context,
         when (position) {
             0 -> return CurrentWeatherFragment.newInstance(locationName, locationKey)
             1 -> return DailyForecastsFragment.newInstance(locationName, locationKey)
+            2 -> return CityWeatherFragment()
         }
         // Return a PlaceholderFragment.
         return PlaceholderFragment.newInstance(position + 1)

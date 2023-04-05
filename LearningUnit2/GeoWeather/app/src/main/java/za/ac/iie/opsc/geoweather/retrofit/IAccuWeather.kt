@@ -8,12 +8,6 @@ import za.ac.iie.opsc.geoweather.model.currentweather.CurrentWeather
 import za.ac.iie.opsc.geoweather.model.location.AccuWeatherLocation
 
 
-
-
-
-
-
-
 interface IAccuWeather {
 
     /**
@@ -54,4 +48,13 @@ interface IAccuWeather {
         @Query("apikey") apiKey: String?
     ): AccuWeatherLocation?
 
+    /**
+     * Get the location information for the top 150 cities worldwide.
+     * @param apiKey The API key to use.
+     * @return A list of 150 top cities.
+     */
+    @GET("locations/v1/topcities/150")
+    suspend fun getTop150Cities(
+        @Query("apikey") apiKey: String?
+    ): List<AccuWeatherLocation?>?
 }
