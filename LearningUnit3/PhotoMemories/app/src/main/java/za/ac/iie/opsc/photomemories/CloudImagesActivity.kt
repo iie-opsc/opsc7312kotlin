@@ -9,7 +9,7 @@ import za.ac.iie.opsc.photomemories.databinding.ActivityLocalImagesBinding
 class CloudImagesActivity : AppCompatActivity() {
 
     private val storeFragment = CloudImagesStoreFragment()
-    //private val viewFragment = LocalImagesViewFragment()
+    private val viewFragment = CloudImagesViewFragment()
     lateinit var binding: ActivityLocalImagesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +22,11 @@ class CloudImagesActivity : AppCompatActivity() {
             transaction.replace(R.id.local_image_place_holder, storeFragment)
             transaction.commitAllowingStateLoss()
         }
-//        binding.btnView.setOnClickListener {
-//            val manager: FragmentManager = supportFragmentManager
-//            val transaction: FragmentTransaction = manager.beginTransaction()
-//            transaction.replace(R.id.local_image_place_holder, viewFragment)
-//            transaction.commitAllowingStateLoss()
-//        }
+        binding.btnView.setOnClickListener {
+            val manager: FragmentManager = supportFragmentManager
+            val transaction: FragmentTransaction = manager.beginTransaction()
+            transaction.replace(R.id.local_image_place_holder, viewFragment)
+            transaction.commitAllowingStateLoss()
+        }
     }
 }
