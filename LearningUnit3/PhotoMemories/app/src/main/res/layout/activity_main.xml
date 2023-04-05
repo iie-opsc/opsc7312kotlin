@@ -18,7 +18,7 @@
 
         <fragment
             android:id="@+id/fragment"
-            android:name="za.ac.iie.opsc.photomemories.MainChoiceFragment"
+            android:name="za.ac.iie.opsc.photomemories.LoginFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
