@@ -6,6 +6,7 @@ plugins {
 android {
     namespace 'za.ac.iie.opsc.photomemories'
     compileSdk 33
+    viewBinding.enabled = true
 
     defaultConfig {
         applicationId "za.ac.iie.opsc.photomemories"
