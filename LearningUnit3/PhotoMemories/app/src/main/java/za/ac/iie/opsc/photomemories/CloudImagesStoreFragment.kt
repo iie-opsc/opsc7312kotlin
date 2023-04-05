@@ -112,36 +112,36 @@ class CloudImagesStoreFragment : Fragment() {
                             getFileExtensions(imageData!!)
                 )
                 var uploadTask = fileRef.putFile(imageData!!)
-                uploadTask.addOnFailureListener {
-                    Toast.makeText(context, it.message,
-                        Toast.LENGTH_SHORT).show()
-                }.addOnSuccessListener { taskSnapshot ->
-                    if (taskSnapshot.task.isSuccessful) {
-                            // write an entry to realtime database
-                            var currentUser = auth.getCurrentUser()
-                            val storedImageUri: String =
-                                taskSnapshot.task.result.toString()
-                            val imageModel = ImageModel(
-                                name.trim(),
-                                null,
-                                storedImageUri
-                            )
-                            val uploadID = myRef.push().key
-                            currentUser?.uid?.let {
-                                myRef.child(it).child((uploadID)!!)
-                                    .setValue(imageModel)
-                            }
-                            Toast.makeText(
-                                context,
-                                "Photo loaded to the cloud :-)",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            // reset the user interface
-                            binding.imgImagepane.setImageResource(
-                                R.drawable.photo)
-                            binding.txtImageDescription.setText("")
+                var uriTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
                         }
+                    }
+                    fileRef.downloadUrl
+                }.addOnSuccessListener { taskSnapshot ->
+                    // write an entry to realtime database
+                    var currentUser = auth.getCurrentUser()
+                    val imageModel = ImageModel(
+                        name.trim(),
+                        null,
+                        taskSnapshot.toString()
+                    )
+                    val uploadID = myRef.push().key
+                    currentUser?.uid?.let {
+                        myRef.child(it).child((uploadID)!!)
+                            .setValue(imageModel)
+                    }
+                    Toast.makeText(
+                        context,
+                        "Photo loaded to the cloud :-)",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    // reset the user interface
+                    binding.imgImagepane.setImageResource(
+                        R.drawable.photo)
+                    binding.txtImageDescription.setText("")
                 }
             } else {
                 Toast.makeText(
